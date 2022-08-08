@@ -498,6 +498,16 @@
       <to>Database join empresa</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Database join empresa</from>
+      <to>Database join sistema</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Database join sistema</from>
+      <to>Database join tipo contagem</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>Contagem File</name>
@@ -796,7 +806,7 @@ where nome = ?</sql>
     </GUI>
   </step>
   <step>
-    <name>Database join 2</name>
+    <name>Database join sistema</name>
     <type>DBJoin</type>
     <description/>
     <distribute>Y</distribute>
@@ -808,14 +818,14 @@ where nome = ?</sql>
     </partitioning>
     <connection>es2-trab2</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT sk_empresa
-FROM empresa
-where nome = ?</sql>
+    <sql>SELECT sk_sistema
+FROM sistema
+where nome_aplicacao = ?</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
       <field>
-        <name>Empresa</name>
+        <name>Sistema</name>
         <type>String</type>
       </field>
     </parameter>
@@ -830,6 +840,44 @@ where nome = ?</sql>
     <GUI>
       <xloc>544</xloc>
       <yloc>304</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Database join tipo contagem</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>es2-trab2</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT sk_tipo_contagem
+FROM tipo_contagem
+where descricao_tipo_contagem = ?</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+      <field>
+        <name>Tipo de Contagem</name>
+        <type>String</type>
+      </field>
+    </parameter>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>400</xloc>
+      <yloc>352</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
