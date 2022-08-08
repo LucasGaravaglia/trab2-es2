@@ -508,6 +508,11 @@
       <to>Database join tipo contagem</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>Database join tipo contagem</from>
+      <to>Empresa Table</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <step>
     <name>Contagem File</name>
@@ -705,69 +710,6 @@
     </GUI>
   </step>
   <step>
-    <name>Tratamento dos dados</name>
-    <type>ReplaceString</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>Empresa</in_stream_name>
-        <out_stream_name/>
-        <use_regex>yes</use_regex>
-        <replace_string>.*([t|T][e|E][c|C][n|N][o|O]).*|.*([p|P][t|T][i|I]).*</replace_string>
-        <replace_by_string>PTI</replace_by_string>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-      <field>
-        <in_stream_name>Empresa</in_stream_name>
-        <out_stream_name/>
-        <use_regex>yes</use_regex>
-        <replace_string>.*([i|I][t|T][a|A][i|I][p|P][u|U]).*</replace_string>
-        <replace_by_string>ITAIPU</replace_by_string>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-      <field>
-        <in_stream_name>Empresa</in_stream_name>
-        <out_stream_name/>
-        <use_regex>yes</use_regex>
-        <replace_string>.*([u|U][n|N][i|I][o|o][e|E][s|S][t|T][e|E]).*</replace_string>
-        <replace_by_string>UNIOESTE</replace_by_string>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-        <is_unicode>no</is_unicode>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>320</xloc>
-      <yloc>128</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
     <name>Database join empresa</name>
     <type>DBJoin</type>
     <description/>
@@ -877,6 +819,153 @@ where descricao_tipo_contagem = ?</sql>
     </remotesteps>
     <GUI>
       <xloc>320</xloc>
+      <yloc>240</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Tratamento dos dados</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>Empresa</in_stream_name>
+        <out_stream_name/>
+        <use_regex>yes</use_regex>
+        <replace_string>.*([t|T][e|E][c|C][n|N][o|O]).*|.*([p|P][t|T][i|I]).*</replace_string>
+        <replace_by_string>PTI</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>Empresa</in_stream_name>
+        <out_stream_name/>
+        <use_regex>yes</use_regex>
+        <replace_string>.*([i|I][t|T][a|A][i|I][p|P][u|U]).*</replace_string>
+        <replace_by_string>ITAIPU</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+      <field>
+        <in_stream_name>Empresa</in_stream_name>
+        <out_stream_name/>
+        <use_regex>yes</use_regex>
+        <replace_string>.*([u|U][n|N][i|I][o|o][e|E][s|S][t|T][e|E]).*</replace_string>
+        <replace_by_string>UNIOESTE</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+        <is_unicode>no</is_unicode>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>128</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Empresa Table</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>es2-trab2</connection>
+    <schema>public</schema>
+    <table>contagem</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>Y</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field>Codigo da Empresa</partitioning_field>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field>Codigo da Empresa</tablename_field>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+      <field>
+        <column_name>data_referencia</column_name>
+        <stream_name>Data de Referência</stream_name>
+      </field>
+      <field>
+        <column_name>totalali</column_name>
+        <stream_name>TotalALI</stream_name>
+      </field>
+      <field>
+        <column_name>totalaie</column_name>
+        <stream_name>TotalAIE</stream_name>
+      </field>
+      <field>
+        <column_name>totaliee</column_name>
+        <stream_name>TotalEE</stream_name>
+      </field>
+      <field>
+        <column_name>totalice</column_name>
+        <stream_name>TotalCE</stream_name>
+      </field>
+      <field>
+        <column_name>totalise</column_name>
+        <stream_name>TotalSE</stream_name>
+      </field>
+      <field>
+        <column_name>total_pontos</column_name>
+        <stream_name>Total de Pontos</stream_name>
+      </field>
+      <field>
+        <column_name>sk_empresa</column_name>
+        <stream_name>sk_empresa</stream_name>
+      </field>
+      <field>
+        <column_name>sk_sistema</column_name>
+        <stream_name>sk_sistema</stream_name>
+      </field>
+      <field>
+        <column_name>sk_tipo_contagem</column_name>
+        <stream_name>sk_tipo_contagem</stream_name>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>160</xloc>
       <yloc>240</yloc>
       <draw>Y</draw>
     </GUI>
